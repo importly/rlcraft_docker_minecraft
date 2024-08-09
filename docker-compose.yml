@@ -1,0 +1,31 @@
+services:
+  minecraft-rlcraft:
+    container_name: minecraft-rlcraft
+    image: itzg/minecraft-server:java8-multiarch # The tag here determines the JAVA version. java8-multiarch is used for java versions <1.17
+    tty: true
+    stdin_open: true
+    ports:
+      - 25565:25565 # 25565 is default
+    volumes:
+      - ./data:/data
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/New_York
+      - EULA=true # Required, if you remove this, the server won't start
+      - TYPE=AUTO_CURSEFORGE
+      - CF_API_KEY=$API_CURSEFORGE # Pulls from curseforge.com
+      - CF_SLUG=rlcraft # Looks for modpack with this name
+      - CF_FILENAME_MATCHER=2.9.3 # Filtered down to this modpack version
+      - VERSION=1.12.2 # Minecraft Version
+      - OVERRIDE_SERVER_PROPERTIES=true # Overrides what is inside server.properties with values below
+      - VIEW_DISTANCE=20
+      - SIMULATION_DISTANCE=20
+      - MOTD=jason and chen, get over here
+      - SEED=BloodAndTears
+      - SERVER_NAME="RLCraft Server"
+      - PLAYER_IDLE_TIMEOUT=60
+      - SYNC_CHUNK_WRITES=true
+      - MEMORY=8G
+    # healthcheck - built-in healthcheck already doing it's job
+    restart: unless-stopped
